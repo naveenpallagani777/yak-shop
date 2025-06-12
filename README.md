@@ -18,5 +18,5 @@ YakShop is a RESTful web service that helps a Yak shepherd simulate herd status 
 ### 1. Clone the Repo
 
 ```bash
-git clone https://github.com/your-username/yak-shop.git
+git clone https://github.com/naveenpallagani777/yak-shop.git
 cd yak-shop
