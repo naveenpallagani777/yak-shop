@@ -2,13 +2,14 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const yakRouter = require('./routers/yak.router');
 const globalErrorHandler = require('./controllers/error.controller');
 
 dotenv.config();
 
 const app = express();
-
+app.use(cors());
 app.use(express.json());
 app.use('/api/yak-shop', yakRouter);
 app.use(globalErrorHandler);
