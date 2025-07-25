@@ -25,7 +25,7 @@ mongoose.connect(dbUri)
   .catch(err => console.error('MongoDB connection error:', err));
 
 app.listen(process.env.PORT || 3000, () => {
-  console.log('CI/CD pipeline is set up successfully 2004!');
+  console.log('CI/CD pipeline is set up successfully 4!');
   console.log(`Server is running on port ${process.env.PORT || 3000}`);
 });
 module.exports = app;
