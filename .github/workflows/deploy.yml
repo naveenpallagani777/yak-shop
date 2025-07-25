@@ -1,0 +1,32 @@
+name: 🚀 Deploy Node.js Backend to VM
+
+on:
+  push:
+    branches:
+      - master # or your default branch
+
+jobs:
+  deploy:
+    name: Deploy to VM
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: ✅ Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: 📦 Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20' # or the version you use
+
+    - name: 🚀 SSH Deploy to VM
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VM_HOST }}
+        username: ${{ secrets.VM_USER }}
+        key: ${{ secrets.VM_SSH_KEY }}
+        script: |
+          cd ${{ secrets.APP_DIR }}
+          git pull origin main
+          npm install
+          pm2 restart yak-shop || pm2 start index.js --name yak-shop
