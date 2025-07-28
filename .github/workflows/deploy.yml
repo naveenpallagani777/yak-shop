@@ -1,4 +1,4 @@
-name: 🚀 Deploy Node.js Backend to VM
+name: 🚀 Deploy Node.js Backend to VM (Docker)
 
 on:
   push:
@@ -7,14 +7,14 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to VM
+    name: Deploy with Docker to VM
     runs-on: ubuntu-latest
 
     steps:
     - name: ✅ Checkout Repository
       uses: actions/checkout@v3
 
-    - name: 📦 Setup Node.js
+    - name: 📦 Setup Node.js (optional - only needed for build)
       uses: actions/setup-node@v3
       with:
         node-version: '20'
@@ -27,13 +27,14 @@ jobs:
         key: ${{ secrets.VM_SSH_KEY }}
         script: |
           cd ${{ secrets.APP_DIR }}
+
+          echo "🔄 Pulling latest code..."
           git pull origin master
 
-          # Ensure .env is still there (just for debug - optional)
-          ls -la .env
+          echo "🐳 Stopping existing containers..."
+          docker-compose down
 
-          # Install dependencies
-          npm install
+          echo "🚀 Starting containers with docker-compose..."
+          docker-compose up -d --build
 
-          # Restart or start the app using pm2
-          pm2 restart yak-shop || pm2 start index.js --name yak-shop
+          echo "✅ Deployment complete."
