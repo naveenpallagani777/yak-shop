@@ -32,9 +32,9 @@ jobs:
           git pull origin master
 
           echo "🐳 Stopping existing containers..."
-          docker-compose down
+          docker compose down
 
-          echo "🚀 Starting containers with docker-compose..."
-          docker-compose up -d --build
+          echo "🚀 Starting containers with docker compose..."
+          docker compose up -d --build
 
           echo "✅ Deployment complete."
