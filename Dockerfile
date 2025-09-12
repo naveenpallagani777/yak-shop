@@ -4,7 +4,7 @@ FROM node:20
 # 2. Working directory
 WORKDIR /app
 
-# 3. Copy and install dependencies
+# 3. Copy package files and install dependencies
 COPY package*.json ./
 RUN npm install
 
@@ -14,5 +14,5 @@ COPY . .
 # 5. Expose port
 EXPOSE 8080
 
-# 6. Start command
+# 6. Start the app
 CMD ["node", "index.js"]

@@ -7,19 +7,17 @@ on:
 
 jobs:
   deploy:
-    name: Deploy with Docker to VM
     runs-on: ubuntu-latest
 
     steps:
-    - name: ✅ Checkout Repository
-      uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-    - name: 📦 Setup Node.js (optional - only needed for build)
+    - name: Setup Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '20'
 
-    - name: 🚀 SSH Deploy to VM
+    - name: SSH Deploy to VM
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.VM_HOST }}
@@ -34,7 +32,7 @@ jobs:
           echo "🐳 Stopping existing containers..."
           docker compose down
 
-          echo "🚀 Starting containers with docker compose..."
-          docker compose up -d --build
+          echo "🚀 Rebuilding and starting containers fresh..."
+          docker compose up -d --build --no-cache
 
           echo "✅ Deployment complete."
