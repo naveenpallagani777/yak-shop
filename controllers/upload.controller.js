@@ -6,7 +6,6 @@ exports.uploadFile = (req, res) => {
     }
 
     const fileUrl = `http://35.200.228.87/api/images/${req.file.filename}`;
-    console.log('File uploaded:', req.file);
 
     return res.status(200).json({
         success: true,
