@@ -22,8 +22,9 @@ if (!fs.existsSync(publicDir)) {
     fs.mkdirSync(publicDir, { recursive: true });
 }
 
-// Serve static files
-app.use('/images', express.static(publicDir));
+// Serve only the images folder
+app.use('/images', express.static(path.join(publicDir, 'images')));
+
 app.use(express.static(publicDir)); // optional if you want root access
 
 // ---------------------
