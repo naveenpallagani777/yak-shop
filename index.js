@@ -37,7 +37,7 @@ app.use(express.json());
 // Routes
 // ---------------------
 app.use('/api', uploadRouter);          // Upload API
-app.use('/api/yak-shop', yakRouter);    // Your yak-router API
+app.use('/yak-shop', yakRouter);    // Your yak-router API
 app.get('/', (req, res) => res.send('Welcome to the Yak API!'));
 
 // ---------------------
@@ -59,7 +59,7 @@ app.use(globalErrorHandler);
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log('CI/CD pipeline is set up successfully with Docker!');
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`Server is running on port http://localhost:${PORT}`);
     console.log(`Serving static files from: ${publicDir}`);
 });
 

@@ -5,7 +5,7 @@ exports.uploadFile = (req, res) => {
         return res.status(400).json({ error: 'No file uploaded' });
     }
 
-    const fileUrl = `http://localhost:${process.env.PORT || 3000}/images/${req.file.filename}`;
+    const fileUrl = `http://35.200.228.87/api/images/${req.file.filename}`;
     console.log('File uploaded:', req.file);
 
     return res.status(200).json({
