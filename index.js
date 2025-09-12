@@ -23,7 +23,7 @@ if (!fs.existsSync(publicDir)) {
 }
 
 // Serve only the images folder
-app.use('/images', express.static(path.join(publicDir, 'images')));
+app.use('/api/images', express.static(path.join(publicDir, 'images')));
 
 app.use(express.static(publicDir)); // optional if you want root access
 
