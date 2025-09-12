@@ -11,8 +11,8 @@ RUN npm install
 # 4. Copy app code
 COPY . .
 
-# 5. Port exposed (update if needed)
-EXPOSE 3000
+# 5. Expose port
+EXPOSE 8080
 
 # 6. Start command
-CMD ["node", "src/index.js"]
+CMD ["node", "index.js"]
