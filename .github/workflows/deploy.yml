@@ -10,12 +10,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
+    - name: Checkout source code
+      uses: actions/checkout@v3
 
     - name: SSH Deploy to VM
       uses: appleboy/ssh-action@master
@@ -26,13 +22,22 @@ jobs:
         script: |
           cd ${{ secrets.APP_DIR }}
 
-          echo "🔄 Pulling latest code..."
+          echo "🔄 Pulling latest code from GitHub..."
           git pull origin master
 
-          echo "🐳 Stopping existing containers..."
+          echo "🐳 Stopping existing Docker containers..."
           docker compose down
 
-          echo "🚀 Rebuilding and starting containers fresh..."
-          docker compose up -d --build --no-cache
+          echo "🚀 Building Docker images without cache..."
+          docker compose build --no-cache
 
-          echo "✅ Deployment complete."
+          echo "🚀 Starting containers in detached mode..."
+          docker compose up -d
+
+          echo "📝 Checking running containers..."
+          docker compose ps
+
+          echo "📚 Last 50 lines of logs for troubleshooting:"
+          docker compose logs --tail 50
+
+          echo "✅ Deployment finished successfully."
