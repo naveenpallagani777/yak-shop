@@ -37,8 +37,8 @@ app.use(express.json());
 // Routes
 // ---------------------
 app.use('/api', uploadRouter);          // Upload API
-app.use('/yak-shop', yakRouter);    // Your yak-router API
-app.get('/', (req, res) => res.send('Welcome to the Yak API!'));
+app.use('/api/yak-shop', yakRouter);    // Your yak-router API
+app.get('/api', (req, res) => res.send('Welcome to the Yak API!'));
 
 // ---------------------
 // MongoDB connection
