@@ -6,10 +6,9 @@ const cron = require('node-cron');
 const imagesDir = path.join(__dirname, '../public/images');
 
 // Age limit in milliseconds (e.g., 24 hours)
-const MAX_AGE = 60 * 1000; // 24 hours
-// 24 * 60 * 
+const MAX_AGE = 24 * 60 * 60 * 1000; // 24 hours    
 // Cron job: runs every day at midnight
-cron.schedule('* * * * *', () => {
+cron.schedule('0 0 * * *', () => {
     console.log('🗑️ Running image cleanup cron job...');
 
     fs.readdir(imagesDir, (err, files) => {
