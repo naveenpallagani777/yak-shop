@@ -5,62 +5,73 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
-// Routers & Middleware
+require('./cron/cleanupImages');
+
+// Load environment variables
+dotenv.config();
+
+// Import Routers and Middleware
 const yakRouter = require('./routers/yak.router');
 const uploadRouter = require('./routers/upload.router');
 const globalErrorHandler = require('./controllers/error.controller');
 
-dotenv.config();
-
+// Initialize Express app
 const app = express();
 
 // ---------------------
-// Public folder setup
+// Setup Public Folder
 // ---------------------
 const publicDir = path.join(__dirname, 'public');
-if (!fs.existsSync(publicDir)) {
-    fs.mkdirSync(publicDir, { recursive: true });
+const imagesDir = path.join(publicDir, 'images');
+
+// Ensure public and images directory exist
+if (!fs.existsSync(imagesDir)) {
+    fs.mkdirSync(imagesDir, { recursive: true });
 }
 
-// Serve only the images folder
-app.use('/api/images', express.static(path.join(publicDir, 'images')));
-
-app.use(express.static(publicDir)); // optional if you want root access
+// Serve static files
+app.use('/api/images', express.static(imagesDir));  // Serve only images
+app.use(express.static(publicDir));                // Serve other public files
 
 // ---------------------
-// Middleware
+// Middleware Setup
 // ---------------------
 app.use(cors());
 app.use(express.json());
 
 // ---------------------
-// Routes
+// API Routes
 // ---------------------
-app.use('/api', uploadRouter);          // Upload API
-app.use('/api/yak-shop', yakRouter);    // Your yak-router API
-app.get('/api', (req, res) => res.send('Welcome to the Yak API!'));
+app.use('/api', uploadRouter);           // Upload endpoints
+app.use('/api/yak-shop', yakRouter);    // Yak-shop specific endpoints
+
+app.get('/api', (req, res) => {
+    res.send('Welcome to the Yak API!');
+});
 
 // ---------------------
-// MongoDB connection
+// MongoDB Connection
 // ---------------------
 const dbUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/mydatabase';
+
 mongoose.connect(dbUri)
-    .then(() => console.log('Connected to MongoDB'))
-    .catch(err => console.error('MongoDB connection error:', err));
+    .then(() => console.log('✅ Connected to MongoDB'))
+    .catch(err => console.error('❌ MongoDB connection error:', err));
 
 // ---------------------
-// Global error handler
+// Global Error Handling
 // ---------------------
 app.use(globalErrorHandler);
 
 // ---------------------
-// Start server
+// Start the Server
 // ---------------------
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log('CI/CD pipeline is set up successfully with Docker!');
-    console.log(`Server is running on port http://localhost:${PORT}`);
-    console.log(`Serving static files from: ${publicDir}`);
+    console.log('🚀 CI/CD pipeline is set up successfully with Docker!');
+    console.log(`🌐 Server running at: http://localhost:${PORT}`);
+    console.log(`📁 Serving static files from: ${publicDir}`);
 });
 
+// Export app for testing or external usage
 module.exports = app;
