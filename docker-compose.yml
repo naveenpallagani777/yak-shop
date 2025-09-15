@@ -8,4 +8,5 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - .:/app
+      - .:/app                    # Mount the entire project (code)
+      - ./public/images:/app/public/images  # Persist uploaded images
